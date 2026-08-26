@@ -10,3 +10,8 @@ Make the ship have a triangular hit box instead of a circular one
 Add a shield power-up
 Add a speed power-up
 Add bombs that can be dropped
+
+From Ben and Drae
+weapon: laser ray
+weapon: rocket launcher
+weapon: shotgun
