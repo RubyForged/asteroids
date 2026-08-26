@@ -3,7 +3,8 @@ from turtle import Screen
 import pygame
 from pygame.math import Vector2
 from circleshape import CircleShape
-from constants import LINE_WIDTH, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_TURN_SPEED
+from constants import LINE_WIDTH, PLAYER_RADIUS, PLAYER_SHOOT_SPEED, PLAYER_SPEED, PLAYER_TURN_SPEED
+from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x,y):
@@ -36,6 +37,8 @@ class Player(CircleShape):
                 self.move(dt)
             if keys[pygame.K_s]:
                 self.move(-dt)
+            if keys[pygame.K_SPACE]:
+                self.shoot()
 
 
     def move(self, dt):
@@ -43,3 +46,16 @@ class Player(CircleShape):
         rotated_vector = unit_vector.rotate(self.rotation)
         rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
         self.position += rotated_with_speed_vector
+
+    def shoot(self):
+        new_shot = Shot(self.position.x, self.position.y)
+        new_shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+        # the below did not work because .rotate does not mutate the vector it's called on
+        #
+        # new_shot.velocity = pygame.Vector2(0,1)
+        # new_shot.velocity.rotate(self.rotation)
+        # new_shot.velocity *= PLAYER_SHOOT_SPEED
+        #
+        # pygame has a rotate in place of
+        # new_shot.velocity.rotate_ip(self.rotation)
